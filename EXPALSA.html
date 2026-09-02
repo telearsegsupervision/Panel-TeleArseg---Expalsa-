@@ -384,6 +384,9 @@
   .rank-track{background:var(--surface-2);border-radius:5px;height:12px;overflow:hidden;}
   .rank-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--blue-accent),#6de6ff);}
   .rank-val{text-align:right;font-weight:800;color:var(--text);font-size:13px;}
+  /* En "Top novedades" los nombres son largos: se les da el espacio flexible y la barra pasa a ancho fijo */
+  #novedadPanel .rank-row{grid-template-columns:26px 1fr 140px 44px;}
+  #novedadPanel .rank-name{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.3;}
   .rank-avatar{
     width:26px;height:26px;border-radius:50%;flex:0 0 auto;
     background:linear-gradient(135deg,var(--blue-accent),#6de6ff);
@@ -905,17 +908,17 @@
   // varia entre propiedades (se usa el nombre generico "Otras novedades de campo").
   var NT_LABELS = {
     ASESE: {
-      1:"Sustracciones internas", 2:"Robos, pérdidas, sustracciones",
-      3:"Intrusión de personas por perímetros", 4:"Intrusión de vehículos por perímetros",
-      5:"Intento de incursión (exterior perímetro)", 6:"Trabajos en campo no informados a tiempo",
-      7:"Personal interno en perímetro no autorizado", 8:"Personal sospechoso en el exterior (perimetral)",
-      9:"Vehículo no autorizado en el exterior (perimetral)", 10:"Otras novedades de campo"
+      1:"SUSTRACCIONES INTERNAS", 2:"ROBOS, PERDIDAS, SUSTRACCIONES",
+      3:"INTRUSION DE PERSONAS POR PERIMETROS", 4:"INTRUSION DE VEHICULOS POR PERIMETROS",
+      5:"INTENTO DE INCURSION (EXTERIOR PERIMETRO)", 6:"TRABAJOS EN CAMPO NO INFORMADOS A TIEMPO",
+      7:"PERSONAL INTERNO EN PERIMETRO NO AUTORIZADO", 8:"PERSONAL SOSPECHOSO EN EL EXTERIOR (PERIMETRAL)",
+      9:"VEHICULO NO AUTORIZADO EN EL EXTERIOR (PERIMETRAL)", 10:"INCIDENTE DE CAMPO / PRODUCTO"
     },
     CSESE: {
-      1:"Falla de aireadores", 2:"Falla de comunicación radial", 3:"Falta de iluminación",
-      4:"Corte de energía en el sector", 5:"Falla de cerco perimetral",
-      6:"Fallas en la cerca (natural o estructural)", 7:"Intermitencia o latencia de red de internet",
-      8:"Sectores perimetrales con maleza"
+      1:"FALLA DE AIREADORES", 2:"FALLA DE COMUNICACIÓN RADIAL", 3:"FALTA DE ILUMINACION",
+      4:"CORTE DE ENERGIA EN EL SECTOR", 5:"FALLA DE CERCO PERIMETRAL",
+      6:"FALLAS EN LA CERCA (NATURAL O ESTRUCTURAL)", 7:"INTERMITENCIA O LATENCIA DE RED DE INTERNET (CLIENTE)",
+      8:"SECTORES PERIMETRALES CON MALEZA"
     }
   };
   function novedadLabel(tipo, nt){
