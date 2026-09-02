@@ -1490,7 +1490,7 @@
     renderStdTrend(els.stdTrendPanel, rows);
     var novedadCounts = {};
     rows.forEach(function(d){
-      var label = novedadLabel(d.tipo, d.nt) || d.tipo || "Sin clasificar";
+      var label = novedadLabel(d.tipo, d.nt) || (d.tipo && d.tipo !== "Sin clasificar" ? d.tipo : "Otros");
       novedadCounts[label] = (novedadCounts[label]||0) + 1;
     });
     renderRankList(els.novedadPanel, novedadCounts, 10, {});
