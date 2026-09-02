@@ -438,10 +438,11 @@
   .month-tile-split .s-csese{background:#00e6c3;}
 
   /* ---------- Tendencia de estandares (ASESE/CSESE) ---------- */
-  .trend-legend{display:flex;gap:16px;font-size:11.5px;font-weight:600;color:var(--text-muted);margin-bottom:6px;}
+  .std-trend-wrap{display:flex;flex-direction:column;width:100%;height:100%;min-height:190px;}
+  .trend-legend{display:flex;gap:16px;font-size:11.5px;font-weight:600;color:var(--text-muted);margin-bottom:6px;flex:0 0 auto;}
   .trend-legend span{display:flex;align-items:center;gap:6px;}
   .trend-dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;}
-  .stdchart{width:100%;}
+  .stdchart{width:100%;flex:1;min-height:150px;display:block;}
   .stdchart .axis{stroke:var(--border);stroke-width:1;}
   .stdchart .bar-asese{fill:var(--blue-accent);}
   .stdchart .bar-csese{fill:#00e6c3;}
@@ -1252,11 +1253,13 @@
       container.innerHTML = '<div class="empty-state">Sin datos para este filtro</div>';
       return;
     }
+    var wrap = document.createElement("div");
+    wrap.className = "std-trend-wrap";
     var legend = document.createElement("div");
     legend.className = "trend-legend";
     legend.innerHTML = '<span><i class="trend-dot" style="background:var(--blue-accent)"></i>ASESE</span>' +
       '<span><i class="trend-dot" style="background:#00e6c3"></i>CSESE</span>';
-    container.appendChild(legend);
+    wrap.appendChild(legend);
 
     var w = 640, h = 220, padL = 8, padR = 8, padB = 28, padT = 22;
     var innerW = w - padL - padR, innerH = h - padT - padB;
@@ -1266,7 +1269,7 @@
     var barW = Math.min(20, groupW * 0.32);
     var gap = barW * 0.18;
 
-    var svg = svgEl("svg", {viewBox:"0 0 "+w+" "+h, width:"100%", height:"210", class:"stdchart", preserveAspectRatio:"xMidYMid meet"});
+    var svg = svgEl("svg", {viewBox:"0 0 "+w+" "+h, width:"100%", height:"100%", class:"stdchart", preserveAspectRatio:"none"});
     svg.appendChild(svgEl("line", {x1:padL, y1:h-padB, x2:w-padR, y2:h-padB, class:"axis"}));
 
     active.forEach(function(x, i){
@@ -1297,7 +1300,8 @@
       svg.appendChild(tM);
     });
 
-    container.appendChild(svg);
+    wrap.appendChild(svg);
+    container.appendChild(wrap);
   }
 
   function initialsOf(name){
