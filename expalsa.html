@@ -436,6 +436,19 @@
   .month-tile-split{display:flex;height:6px;border-radius:3px;overflow:hidden;background:var(--surface);}
   .month-tile-split .s-asese{background:var(--blue-accent);}
   .month-tile-split .s-csese{background:#00e6c3;}
+
+  /* ---------- Tendencia de estandares (ASESE/CSESE) ---------- */
+  .trend-legend{display:flex;gap:16px;font-size:11.5px;font-weight:600;color:var(--text-muted);margin-bottom:12px;}
+  .trend-legend span{display:flex;align-items:center;gap:6px;}
+  .trend-dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;}
+  .trend-list{display:flex;flex-direction:column;gap:10px;}
+  .trend-row{display:flex;align-items:center;gap:10px;}
+  .trend-month{width:34px;flex:0 0 auto;font-size:12px;font-weight:700;color:var(--text-muted);text-transform:capitalize;}
+  .trend-track{flex:1;height:10px;border-radius:5px;overflow:hidden;background:var(--surface-2);display:flex;}
+  .trend-seg{height:100%;}
+  .trend-seg.trend-asese{background:var(--blue-accent);}
+  .trend-seg.trend-csese{background:#00e6c3;}
+  .trend-val{width:28px;flex:0 0 auto;text-align:right;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;}
   .month-tile-legend{display:flex;justify-content:space-between;font-size:10px;color:var(--text-faint);font-weight:600;}
 
   .chart-legend-inline{display:flex;gap:14px;font-size:11px;color:var(--text-muted);font-weight:600;}
@@ -624,9 +637,9 @@
       </div>
 
       <div class="panel">
-        <h2>Top operadores</h2>
-        <p class="panel-sub">Operadores con más incidentes reportados/verificados</p>
-        <div class="panel-body" id="topOpPanel" style="align-items:stretch;"></div>
+        <h2>Tendencia de estándares</h2>
+        <p class="panel-sub">Actos Sub Estándares (ASESE) y Condiciones Sub Estándares (CSESE) por mes</p>
+        <div class="panel-body" id="stdTrendPanel" style="align-items:stretch;"></div>
       </div>
 
       <div class="table-panel">
@@ -1034,7 +1047,7 @@
     donutNivel: document.getElementById("donutNivel"),
     barProp: document.getElementById("barProp"),
     hourChart: document.getElementById("hourChart"),
-    topOpPanel: document.getElementById("topOpPanel"),
+    stdTrendPanel: document.getElementById("stdTrendPanel"),
     tbody: document.getElementById("tbody"),
     tableCount: document.getElementById("tableCount"),
     tableFoot: document.getElementById("tableFoot"),
@@ -1227,6 +1240,37 @@
     container.appendChild(wrap);
   }
 
+  function renderStdTrend(container, rows){
+    container.innerHTML = "";
+    var byMonth = MESES_FULL.map(function(){ return {asese:0, csese:0}; });
+    var sinFecha = 0;
+    rows.forEach(function(d){
+      var f = parseFecha(d.fecha);
+      if (!f) { sinFecha++; return; }
+      if (d.tipo === "ASESE") byMonth[f.month].asese++;
+      else if (d.tipo === "CSESE") byMonth[f.month].csese++;
+    });
+    var active = byMonth.map(function(m,i){ return {m:m, i:i}; }).filter(function(x){ return x.m.asese + x.m.csese > 0; });
+    if (!active.length){
+      container.innerHTML = '<div class="empty-state">Sin datos para este filtro</div>';
+      return;
+    }
+    var maxV = active.reduce(function(a,x){ return Math.max(a, x.m.asese + x.m.csese); }, 1);
+    var html = '<div class="trend-legend">' +
+      '<span><i class="trend-dot" style="background:var(--blue-accent)"></i>ASESE</span>' +
+      '<span><i class="trend-dot" style="background:#00e6c3"></i>CSESE</span>' +
+      '</div><div class="trend-list">' + active.map(function(x){
+      var total = x.m.asese + x.m.csese;
+      var pctA = Math.round(x.m.asese/maxV*100);
+      var pctC = Math.round(x.m.csese/maxV*100);
+      return '<div class="trend-row">' +
+        '<span class="trend-month">' + MESES_FULL[x.i].slice(0,3) + '</span>' +
+        '<span class="trend-track"><span class="trend-seg trend-asese" style="width:'+pctA+'%"></span><span class="trend-seg trend-csese" style="width:'+pctC+'%"></span></span>' +
+        '<span class="trend-val">' + total + '</span></div>';
+    }).join("") + '</div>';
+    container.innerHTML = html;
+  }
+
   function initialsOf(name){
     return String(name).split(" ").filter(Boolean).map(function(p){ return p.charAt(0); }).join("").slice(0,2).toUpperCase();
   }
@@ -1360,7 +1404,7 @@
     renderDonut(els.donutNivel, countBy(rows, "nivel"), function(name){ return NIVEL_COLOR[name] || "var(--text-faint)"; }, "incid.");
     renderBars(els.barProp, countBy(rows, "prop"), 8);
     renderHourChart(els.hourChart, rows);
-    renderRankList(els.topOpPanel, countBy(rows, "op"), 10, { avatars: true });
+    renderStdTrend(els.stdTrendPanel, rows);
 
     els.tbody.innerHTML = "";
     if (!rows.length){
