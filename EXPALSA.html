@@ -642,6 +642,12 @@
         <div class="panel-body" id="stdTrendPanel" style="align-items:stretch;"></div>
       </div>
 
+      <div class="panel">
+        <h2>Top novedades</h2>
+        <p class="panel-sub">Detalle por nombre de novedad (Incursión, Intrusión, Falla de aireadores, etc.) en el período filtrado</p>
+        <div class="panel-body" id="novedadPanel" style="align-items:stretch;"></div>
+      </div>
+
       <div class="table-panel">
         <div class="table-head">
           <h2>Registro de incidentes</h2>
@@ -894,6 +900,31 @@
     if (!s) return s;
     return s.toLowerCase().replace(/\S+/g, titleCaseWord);
   }
+  // Leyenda oficial de NT (numero de novedad) segun la pestana "CUADRO ESTADISTICO
+  // DE ACTOS Y CONDICIONES INSEGURAS" de las hojas de origen. El item 10 de ASESE
+  // varia entre propiedades (se usa el nombre generico "Otras novedades de campo").
+  var NT_LABELS = {
+    ASESE: {
+      1:"Sustracciones internas", 2:"Robos, pérdidas, sustracciones",
+      3:"Intrusión de personas por perímetros", 4:"Intrusión de vehículos por perímetros",
+      5:"Intento de incursión (exterior perímetro)", 6:"Trabajos en campo no informados a tiempo",
+      7:"Personal interno en perímetro no autorizado", 8:"Personal sospechoso en el exterior (perimetral)",
+      9:"Vehículo no autorizado en el exterior (perimetral)", 10:"Otras novedades de campo"
+    },
+    CSESE: {
+      1:"Falla de aireadores", 2:"Falla de comunicación radial", 3:"Falta de iluminación",
+      4:"Corte de energía en el sector", 5:"Falla de cerco perimetral",
+      6:"Fallas en la cerca (natural o estructural)", 7:"Intermitencia o latencia de red de internet",
+      8:"Sectores perimetrales con maleza"
+    }
+  };
+  function novedadLabel(tipo, nt){
+    var n = parseInt(String(nt).replace(/[^\d]/g,""), 10);
+    var table = NT_LABELS[tipo];
+    if (table && n && table[n]) return table[n];
+    return null;
+  }
+
   function normTipo(s, desc){
     s = cleanWs(s);
     if (!s){
@@ -1051,6 +1082,7 @@
     barProp: document.getElementById("barProp"),
     hourChart: document.getElementById("hourChart"),
     stdTrendPanel: document.getElementById("stdTrendPanel"),
+    novedadPanel: document.getElementById("novedadPanel"),
     tbody: document.getElementById("tbody"),
     tableCount: document.getElementById("tableCount"),
     tableFoot: document.getElementById("tableFoot"),
@@ -1453,6 +1485,12 @@
     renderBars(els.barProp, countBy(rows, "prop"), 8);
     renderHourChart(els.hourChart, rows);
     renderStdTrend(els.stdTrendPanel, rows);
+    var novedadCounts = {};
+    rows.forEach(function(d){
+      var label = novedadLabel(d.tipo, d.nt) || d.tipo || "Sin clasificar";
+      novedadCounts[label] = (novedadCounts[label]||0) + 1;
+    });
+    renderRankList(els.novedadPanel, novedadCounts, 10, {});
 
     els.tbody.innerHTML = "";
     if (!rows.length){
