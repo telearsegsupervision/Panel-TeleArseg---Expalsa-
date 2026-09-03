@@ -875,19 +875,19 @@
   // Carga en vivo desde Google Sheets (una hoja por propiedad)
   // =========================================================
   var SHEET_REGISTRY = [
-    {estacion:"SECTOR TAURA", id:"1zgSMbJT9rxK8PVdG0TTEowS3T6lCALP9iJWtVB2a28Y", gids:[1292518277,1340650713,1566134355,1618592145,1665494167,174959511,1877118122,2132365608,380117796,613223367,638779634,912292373,985815696,989455536]},
-    {estacion:"SECTOR TAURA", id:"1LqlNUWSOQNVOWFJVjRHldvQJNjkVtUQ5EfuyP-UVFoA", gids:[1340650713,1399599485,1566134355,1618592145,1665494167,174959511,1877118122,395858467,613223367,912292373,989455536]},
-    {estacion:"SECTOR SABANA GRANDE", id:"19mKduOOPlUacuFZnts6IpzZaZPPRrIIFyhUMHPsTaVU", gids:[1340650713,1566134355,1618592145,1637938734,1665494167,174959511,1877118122,1973119834,2132365608,613223367,638779634,85776447,912292373,989455536]},
-    {estacion:"SECTOR SABANA GRANDE", id:"1eATFHs1flTGbsaHbkPACSULt5SG-8FBZMQ_5yPLb_fQ", gids:[1340650713,1566134355,1618592145,1665494167,174959511,1877118122,1922706629,2132365608,43268002,613223367,638779634,730841852,912292373,989455536]},
-    {estacion:"SECTOR SABANA GRANDE", id:"1wO-IsDjHbHqk12YutaPB8ZVur4qde_5iWT_dcMVX3W8", gids:[1340650713,143326126,1566134355,1618592145,1665494167,174959511,1827715249,1877118122,2132365608,613223367,638779634,912292373,96721870,989455536]},
-    {estacion:"SECTOR SABANA GRANDE", id:"16T5Irjhks4pGEnh7aFx_Vv1igcjr56tx8i_Sv2trIGQ", gids:[1340650713,1566134355,1618592145,1665494167,174959511,1877118122,2118171519,607491807,613223367,912292373,989455536]},
-    {estacion:"SECTOR DURAN - ELOY ALFARO", id:"1rQGHMT7UcR0Q9ULx_hi9SyvQZbb8tcpAANxI8Xv3lO4", gids:[1332890872,1340650713,1566134355,1618592145,1665494167,174959511,1877118122,2132365608,447724009,613223367,638779634,896670335,912292373,989455536]},
-    {estacion:"SECTOR PUNA", id:"1DW3jJ4uaHydzkxiuEpEAoZfhIw6w4gDX0PiLzP3SX9o", gids:[1233420422,1340650713,1566134355,1618592145,1665494167,1877118122,613223367,874438591,912292373,989455536]},
-    {estacion:"SECTOR PUNA", id:"1wExzEy2WGuNbRfZf8yXhc1GWtVzPQugUfDM1UtJsNsI", gids:[1097352956,1256522970,1340650713,1566134355,1618592145,1665494167,1877118122,613223367,912292373,989455536]},
-    {estacion:"SECTOR PUNA", id:"1_Ua1QbmEYDWmnafz5Y999BrSCE-gSZtUbwGjpirf7gs", gids:[1340650713,1566134355,1618592145,1665494167,174959511,1877118122,428159409,613223367,912292373,917834113,989455536]},
-    {estacion:"SECTOR PUNA", id:"1FhMhLbYzBZYA436Tg2fl3l07Rjr90IFaJ334KvDPFcE", gids:[1340650713,1566134355,1618592145,1665494167,174959511,1877118122,2009647628,2145614591,613223367,912292373,989455536]},
-    {estacion:"SECTOR YAGUACHI", id:"1ISWvbMYoXtayWph3zSTY4RqUpPyS_53acynbUsF2nlQ", gids:[1340650713,1566134355,1618592145,1665494167,174959511,1877118122,194402146,447701405,613223367,912292373,989455536]},
-    {estacion:"SECTOR YAGUACHI", id:"1nrFAG6Eq0Jq84kFPG9wjwmCx-WzVVH45j5aEyCB4pjg", gids:[1340650713,1566134355,1618592145,1665494167,1720980031,174959511,1877118122,1930375152,613223367,735830480,912292373,989455536]}
+    {estacion:"SECTOR TAURA", prop:"SASEJUKI", id:"1zgSMbJT9rxK8PVdG0TTEowS3T6lCALP9iJWtVB2a28Y", gids:[1292518277,1340650713,1566134355,1618592145,1665494167,174959511,1877118122,2132365608,380117796,613223367,638779634,912292373,985815696,989455536]},
+    {estacion:"SECTOR TAURA", prop:"CAMATAURA", id:"1LqlNUWSOQNVOWFJVjRHldvQJNjkVtUQ5EfuyP-UVFoA", gids:[1340650713,1399599485,1566134355,1618592145,1665494167,174959511,1877118122,395858467,613223367,912292373,989455536]},
+    {estacion:"SECTOR SABANA GRANDE", prop:"PALO SANTO", id:"19mKduOOPlUacuFZnts6IpzZaZPPRrIIFyhUMHPsTaVU", gids:[1340650713,1566134355,1618592145,1637938734,1665494167,174959511,1877118122,1973119834,2132365608,613223367,638779634,85776447,912292373,989455536]},
+    {estacion:"SECTOR SABANA GRANDE", prop:"AMARCO", id:"1eATFHs1flTGbsaHbkPACSULt5SG-8FBZMQ_5yPLb_fQ", gids:[1340650713,1566134355,1618592145,1665494167,174959511,1877118122,1922706629,2132365608,43268002,613223367,638779634,730841852,912292373,989455536]},
+    {estacion:"SECTOR SABANA GRANDE", prop:"CAMPONIO", id:"1wO-IsDjHbHqk12YutaPB8ZVur4qde_5iWT_dcMVX3W8", gids:[1340650713,143326126,1566134355,1618592145,1665494167,174959511,1827715249,1877118122,2132365608,613223367,638779634,912292373,96721870,989455536]},
+    {estacion:"SECTOR SABANA GRANDE", prop:"CONCHAO", id:"16T5Irjhks4pGEnh7aFx_Vv1igcjr56tx8i_Sv2trIGQ", gids:[1340650713,1566134355,1618592145,1665494167,174959511,1877118122,2118171519,607491807,613223367,912292373,989455536]},
+    {estacion:"SECTOR DURAN - ELOY ALFARO", prop:"ALBERGUE", id:"1rQGHMT7UcR0Q9ULx_hi9SyvQZbb8tcpAANxI8Xv3lO4", gids:[1332890872,1340650713,1566134355,1618592145,1665494167,174959511,1877118122,2132365608,447724009,613223367,638779634,896670335,912292373,989455536]},
+    {estacion:"SECTOR PUNA", prop:"VALCA", id:"1DW3jJ4uaHydzkxiuEpEAoZfhIw6w4gDX0PiLzP3SX9o", gids:[1233420422,1340650713,1566134355,1618592145,1665494167,1877118122,613223367,874438591,912292373,989455536]},
+    {estacion:"SECTOR PUNA", prop:"SIG SIG", id:"1wExzEy2WGuNbRfZf8yXhc1GWtVzPQugUfDM1UtJsNsI", gids:[1097352956,1256522970,1340650713,1566134355,1618592145,1665494167,1877118122,613223367,912292373,989455536]},
+    {estacion:"SECTOR PUNA", prop:"CAMELMAR", id:"1_Ua1QbmEYDWmnafz5Y999BrSCE-gSZtUbwGjpirf7gs", gids:[1340650713,1566134355,1618592145,1665494167,174959511,1877118122,428159409,613223367,912292373,917834113,989455536]},
+    {estacion:"SECTOR PUNA", prop:"CAMANISA", id:"1FhMhLbYzBZYA436Tg2fl3l07Rjr90IFaJ334KvDPFcE", gids:[1340650713,1566134355,1618592145,1665494167,174959511,1877118122,2009647628,2145614591,613223367,912292373,989455536]},
+    {estacion:"SECTOR YAGUACHI", prop:"CAMANGLAR 3", id:"1ISWvbMYoXtayWph3zSTY4RqUpPyS_53acynbUsF2nlQ", gids:[1340650713,1566134355,1618592145,1665494167,174959511,1877118122,194402146,447701405,613223367,912292373,989455536]},
+    {estacion:"SECTOR YAGUACHI", prop:"CAMANGLAR 1 Y 2", id:"1nrFAG6Eq0Jq84kFPG9wjwmCx-WzVVH45j5aEyCB4pjg", gids:[1340650713,1566134355,1618592145,1665494167,1720980031,174959511,1877118122,1930375152,613223367,735830480,912292373,989455536]}
   ];
 
   var TIPO_KNOWN = ["ASESE","ASESA","ASE SE","ACESE","CSESE","CSESA","CESESE"];
@@ -1108,10 +1108,25 @@
     });
   }
 
+  // Sectores y propiedades conocidos por el registro de hojas, para que aparezcan
+  // en los filtros aunque todavia no tengan incidentes cargados.
+  var KNOWN_SECTORS = uniqueSorted(SHEET_REGISTRY.map(function(s){return s.estacion;}));
+  var KNOWN_PROPS_BY_SECTOR = {};
+  SHEET_REGISTRY.forEach(function(s){
+    if (!KNOWN_PROPS_BY_SECTOR[s.estacion]) KNOWN_PROPS_BY_SECTOR[s.estacion] = [];
+    KNOWN_PROPS_BY_SECTOR[s.estacion].push(s.prop);
+  });
+  var KNOWN_PROPS_ALL = uniqueSorted(SHEET_REGISTRY.map(function(s){return s.prop;}));
+
+  function renameOptionLabel(sel, value, newLabel){
+    Array.prototype.forEach.call(sel.options, function(o){ if (o.value === value) o.textContent = newLabel; });
+  }
+
   var estaciones = [];
   function propsForSector(sector){
     var pool = sector ? DATA.filter(function(d){return d.estacion===sector;}) : DATA;
-    return uniqueSorted(pool.map(function(d){return d.prop;}));
+    var known = sector ? (KNOWN_PROPS_BY_SECTOR[sector] || []) : KNOWN_PROPS_ALL;
+    return uniqueSorted(pool.map(function(d){return d.prop;}).concat(known));
   }
   function updatePropOptionsForSector(sectorSelectEl, propSelectEl){
     var prev = propSelectEl.value;
@@ -1120,11 +1135,13 @@
     propSelectEl.value = stillValid ? prev : "";
   }
   function populateFilters(){
-    estaciones = uniqueSorted(DATA.map(function(d){return d.estacion;}));
+    estaciones = uniqueSorted(DATA.map(function(d){return d.estacion;}).concat(KNOWN_SECTORS));
     fillSelect(els.fCliente, uniqueSorted(DATA.map(function(d){return d.cliente;})), "Todos los clientes");
     fillSelect(els.fProp, propsForSector(els.fEst.value), "Todas las propiedades");
     fillSelect(els.fTipo, uniqueSorted(DATA.map(function(d){return d.tipo;})), "Todos los tipos");
+    renameOptionLabel(els.fTipo, "Sin clasificar", "OTROS");
     fillSelect(els.fNivel, NIVEL_ORDER.filter(function(n){ return DATA.some(function(d){return d.nivel===n;}); }), "Todos los niveles");
+    renameOptionLabel(els.fNivel, "Sin clasificar", "OTROS");
     fillSelect(els.fEst, estaciones, "Todos los sectores");
     fillSelect(els.fOperador, uniqueSorted(DATA.map(function(d){return d.op;})), "Todos los operadores");
     var rEstEl = document.getElementById("rEst");
@@ -1133,7 +1150,9 @@
       fillSelect(rEstEl, estaciones, "Todos los sectores");
       fillSelect(document.getElementById("rProp"), propsForSector(rEstEl.value), "Todas las propiedades");
       fillSelect(document.getElementById("rTipo"), uniqueSorted(DATA.map(function(d){return d.tipo;})), "Todos los tipos");
+      renameOptionLabel(document.getElementById("rTipo"), "Sin clasificar", "OTROS");
       fillSelect(document.getElementById("rNivel"), NIVEL_ORDER.filter(function(n){ return DATA.some(function(d){return d.nivel===n;}); }), "Todos los niveles");
+      renameOptionLabel(document.getElementById("rNivel"), "Sin clasificar", "OTROS");
       fillSelect(document.getElementById("rOperador"), uniqueSorted(DATA.map(function(d){return d.op;})), "Todos los operadores");
     }
   }
