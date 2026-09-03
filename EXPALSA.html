@@ -1108,15 +1108,24 @@
     });
   }
 
-  // Sectores y propiedades conocidos por el registro de hojas, para que aparezcan
-  // en los filtros aunque todavia no tengan incidentes cargados.
+  // Sectores conocidos por el registro de hojas, para que aparezcan en el filtro
+  // aunque todavia no tengan incidentes cargados.
   var KNOWN_SECTORS = uniqueSorted(SHEET_REGISTRY.map(function(s){return s.estacion;}));
+  // Propiedades que hoy no tienen NINGUN incidente registrado (por lo tanto nunca
+  // aparecerian solas en los datos reales) pero deben poder seleccionarse igual.
+  // No se incluyen aqui propiedades como CAMATAURA/CAMANGLAR/CAMELMAR porque esas
+  // ya aparecen con sus variantes reales (CAMATAURA 1/2, CAMANGLAR 1/2/3/4, etc.)
+  // y agregar el nombre generico del registro solo crearia un duplicado.
+  var ALWAYS_SHOW_PROPS = [
+    {estacion:"SECTOR DURAN - ELOY ALFARO", prop:"ALBERGUE"},
+    {estacion:"SECTOR SABANA GRANDE", prop:"AMARCO"}
+  ];
   var KNOWN_PROPS_BY_SECTOR = {};
-  SHEET_REGISTRY.forEach(function(s){
+  ALWAYS_SHOW_PROPS.forEach(function(s){
     if (!KNOWN_PROPS_BY_SECTOR[s.estacion]) KNOWN_PROPS_BY_SECTOR[s.estacion] = [];
     KNOWN_PROPS_BY_SECTOR[s.estacion].push(s.prop);
   });
-  var KNOWN_PROPS_ALL = uniqueSorted(SHEET_REGISTRY.map(function(s){return s.prop;}));
+  var KNOWN_PROPS_ALL = uniqueSorted(ALWAYS_SHOW_PROPS.map(function(s){return s.prop;}));
 
   function renameOptionLabel(sel, value, newLabel){
     Array.prototype.forEach.call(sel.options, function(o){ if (o.value === value) o.textContent = newLabel; });
