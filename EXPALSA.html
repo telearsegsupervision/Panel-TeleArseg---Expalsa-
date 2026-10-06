@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
 <title>Panel TeleArseg - Expalsa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -211,9 +213,31 @@
     font-size:12.5px;font-weight:600;color:#eef2fb;
   }
   .pill svg{width:14px;height:14px;opacity:.85;}
-  .source-line{font-size:10.5px;color:#93a7cf;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .source-line{font-size:10.5px;color:#93a7cf;display:flex;align-items:center;gap:6px;flex-wrap:wrap;position:relative;}
   .source-line svg{width:11px;height:11px;color:#3ecf8e;flex:0 0 auto;}
   .source-line a{color:#bcd0f7;}
+  .sheet-links-toggle{display:inline-flex;align-items:center;gap:4px;color:var(--cyan)!important;cursor:pointer;}
+  .sheet-links-toggle svg{width:9px;height:9px;color:var(--cyan)!important;transition:transform .15s;}
+  .sheet-links-toggle.open svg{transform:rotate(180deg);}
+  .sheet-links-panel{
+    position:absolute; top:100%; left:0; margin-top:10px; z-index:60;
+    background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    padding:14px; width:330px; max-width:86vw; max-height:380px; overflow-y:auto;
+    box-shadow:0 24px 60px -14px rgba(0,0,0,.65);
+    display:none;
+  }
+  .sheet-links-panel.show{display:block;}
+  .sheet-links-head{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);font-weight:700;margin-bottom:10px;}
+  .sheet-links-group{margin-bottom:10px;}
+  .sheet-links-group:last-child{margin-bottom:0;}
+  .sheet-links-group-title{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);margin-bottom:4px;font-weight:700;}
+  .sheet-link-row{
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    padding:7px 9px; border-radius:8px; text-decoration:none; color:var(--text);
+    font-size:12px; margin-bottom:2px;
+  }
+  .sheet-link-row:hover{background:var(--surface-2); color:var(--cyan);}
+  .sheet-link-row svg{width:12px;height:12px;flex-shrink:0;color:var(--text-faint);}
 
   .content{padding:22px 28px 40px;display:flex;flex-direction:column;gap:20px;}
 
@@ -581,7 +605,8 @@
 
       <div class="source-line">
         <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
-        Datos en vivo desde Google Sheets (hojas por propiedad de EXPALSA) · se actualiza automáticamente cada 3 minutos · <a href="javascript:void(0)" id="btnRefreshNow">actualizar ahora</a>
+        Datos en vivo desde Google Sheets (hojas por propiedad de EXPALSA) · se actualiza automáticamente cada 3 minutos · <a href="javascript:void(0)" id="btnRefreshNow">actualizar ahora</a> · <a href="javascript:void(0)" class="sheet-links-toggle" id="btnSheetLinks">ver hojas de cálculo<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></a>
+        <div class="sheet-links-panel" id="sheetLinksPanel"></div>
       </div>
 
       <div class="filters">
@@ -1998,6 +2023,42 @@
   document.getElementById("btnRefreshNow").addEventListener("click", refreshNow);
   refreshNow();
   setInterval(refreshNow, 180000);
+
+  (function buildSheetLinksPanel(){
+    var panel = document.getElementById("sheetLinksPanel");
+    var toggle = document.getElementById("btnSheetLinks");
+    var groups = {};
+    var order = [];
+    SHEET_REGISTRY.forEach(function(sheet){
+      if (!groups[sheet.estacion]) { groups[sheet.estacion] = []; order.push(sheet.estacion); }
+      groups[sheet.estacion].push(sheet);
+    });
+    var html = '<div class="sheet-links-head">Hojas de cálculo por propiedad</div>';
+    order.forEach(function(estacion){
+      html += '<div class="sheet-links-group"><div class="sheet-links-group-title">' + estacion + '</div>';
+      groups[estacion].forEach(function(sheet){
+        var url = "https://docs.google.com/spreadsheets/d/" + sheet.id + "/edit";
+        html += '<a class="sheet-link-row" href="' + url + '" target="_blank" rel="noopener">' +
+          '<span>' + sheet.prop + '</span>' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>' +
+          '</a>';
+      });
+      html += '</div>';
+    });
+    panel.innerHTML = html;
+
+    function closePanel(){ panel.classList.remove("show"); toggle.classList.remove("open"); }
+    toggle.addEventListener("click", function(e){
+      e.stopPropagation();
+      var willShow = !panel.classList.contains("show");
+      panel.classList.toggle("show", willShow);
+      toggle.classList.toggle("open", willShow);
+    });
+    document.addEventListener("click", function(e){
+      if (!panel.contains(e.target) && e.target !== toggle) closePanel();
+    });
+    document.addEventListener("keydown", function(e){ if (e.key === "Escape") closePanel(); });
+  })();
 
   render();
 })();
